@@ -5,7 +5,7 @@ import json
 class HelloWorld(object):
     @cherrypy.expose
     def index(self):
-        return "Hello World!"
+        return "Genobank.io (TM) API"
 
 
     @cherrypy.expose
