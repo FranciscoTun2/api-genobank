@@ -1,6 +1,7 @@
 import cherrypy
 import os
 import json
+import cherrypy_cors
 
 class AppServer(object):
     def CORS():
