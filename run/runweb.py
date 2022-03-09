@@ -1,7 +1,7 @@
 import cherrypy
 import os
 import json
-import cv2
+# import cv2
 import qrcode
 import numpy as np
 
@@ -45,15 +45,15 @@ class AppServer(object):
         file = file.file
         file = file.read()
         # # decode binary to image
-        img = cv2.imdecode(np.fromstring(file, np.uint8), cv2.IMREAD_COLOR)
-        detector = cv2.QRCodeDetector()
-        dato, bbox, straight_qrcode = detector.detectAndDecode(img)
+        # img = cv2.imdecode(np.fromstring(file, np.uint8), cv2.IMREAD_COLOR)
+        # detector = cv2.QRCodeDetector()
+        # dato, bbox, straight_qrcode = detector.detectAndDecode(img)
 
-        # # print(file)
-        print("\nDato", dato, "\n")
+        # # # print(file)
+        # print("\nDato", dato, "\n")
 
 
-        return dato
+        return data
 
 class GenoBank(object):
     def __init__(self):
