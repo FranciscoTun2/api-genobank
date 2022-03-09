@@ -5,15 +5,13 @@ import cherrypy_cors
 
 class AppServer(object):
     def CORS():
-        cherrypy.response.headers['Access-Control-Allow-Methods'] = 'POST'
-
-        # if cherrypy.request.method == 'OPTIONS':
-        #     cherrypy.response.headers['Access-Control-Allow-Methods'] = 'POST'
-        #     cherrypy.response.headers['Access-Control-Allow-Headers'] = 'content-type'
-        #     cherrypy.response.headers['Access-Control-Allow-Origin']  = '*'
-        #     return True
-        # else:
-        #     cherrypy.response.headers['Access-Control-Allow-Origin'] = '*'
+        if cherrypy.request.method == 'OPTIONS':
+            cherrypy.response.headers['Access-Control-Allow-Methods'] = 'POST'
+            cherrypy.response.headers['Access-Control-Allow-Headers'] = 'content-type'
+            cherrypy.response.headers['Access-Control-Allow-Origin']  = '*'
+            return True
+        else:
+            cherrypy.response.headers['Access-Control-Allow-Origin'] = '*'
     
     cherrypy.tools.CORS = cherrypy._cptools.HandlerTool(CORS)
 
@@ -31,7 +29,6 @@ class AppServer(object):
         return _json
 
 class GenoBank(object):
-
     def __init__(self):
         return None
 
@@ -43,7 +40,8 @@ class GenoBank(object):
             },
             '/': {
                 'cors.expose.on': True,
+                'tools.sessions.on': True,
+                'tools.staticdir.root': os.path.abspath(os.getcwd())
             }
         }
-
         cherrypy.quickstart(AppServer(), '/', config=config)
