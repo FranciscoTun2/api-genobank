@@ -23,6 +23,7 @@ class AppServer(object):
     @cherrypy.tools.allow(methods=['GET'])
     @cherrypy.tools.json_out()
     def read_qrcode(self, data):
+        print(data)
         return data
         # _json = cherrypy.request.body.read()
         # _json = json.loads(_json)
