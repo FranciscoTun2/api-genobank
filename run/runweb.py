@@ -44,16 +44,16 @@ class AppServer(object):
 
         file = file.file
         file = file.read()
-        # # decode binary to image
-        # img = cv2.imdecode(np.fromstring(file, np.uint8), cv2.IMREAD_COLOR)
-        # detector = cv2.QRCodeDetector()
-        # dato, bbox, straight_qrcode = detector.detectAndDecode(img)
+        # decode binary to image
+        img = cv2.imdecode(np.fromstring(file, np.uint8), cv2.IMREAD_COLOR)
+        detector = cv2.QRCodeDetector()
+        dato, bbox, straight_qrcode = detector.detectAndDecode(img)
 
         # # # print(file)
         # print("\nDato", dato, "\n")
 
 
-        return data
+        return dato
 
 class GenoBank(object):
     def __init__(self):
