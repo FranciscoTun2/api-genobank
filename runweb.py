@@ -1,10 +1,19 @@
 import cherrypy
 import os
+import json
 
 class HelloWorld(object):
     @cherrypy.expose
     def index(self):
         return "Hello World!"
+
+
+    @cherrypy.expose
+    @cherrypy.tools.json_out()
+    def read_qrcode(self):
+        _json = cherrypy.request.body.read()
+        _json = json.loads(_json)
+        return _json
 
 config = {
     'global': {
