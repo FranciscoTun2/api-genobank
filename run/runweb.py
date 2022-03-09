@@ -3,12 +3,24 @@ import os
 import json
 
 class AppServer(object):
+    def CORS():
+        if cherrypy.request.method == 'OPTIONS':
+            cherrypy.response.headers['Access-Control-Allow-Methods'] = 'POST'
+            cherrypy.response.headers['Access-Control-Allow-Headers'] = 'content-type'
+            cherrypy.response.headers['Access-Control-Allow-Origin']  = '*'
+            return True
+        else:
+            cherrypy.response.headers['Access-Control-Allow-Origin'] = '*'
+    
+    cherrypy.tools.CORS = cherrypy._cptools.HandlerTool(CORS)
+
     @cherrypy.expose
     def index(self):
         return "Genobank.io (TM) API"
 
-
     @cherrypy.expose
+    @cherrypy.config(**{'tools.CORS.on': True})
+    @cherrypy.tools.allow(methods=['POST'])
     @cherrypy.tools.json_out()
     def read_qrcode(self):
         _json = cherrypy.request.body.read()
