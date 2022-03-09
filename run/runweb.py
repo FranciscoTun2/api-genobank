@@ -39,6 +39,10 @@ class GenoBank(object):
             'global': {
                 'server.socket_host': '0.0.0.0',
                 'server.socket_port': int(os.environ.get('PORT', port)),
+            },
+            '/static': {
+                'tools.staticdir.on': True,
+                'cors.expose.on': True,
             }
         }
 
