@@ -4,13 +4,15 @@ import json
 
 class AppServer(object):
     def CORS():
-        if cherrypy.request.method == 'OPTIONS':
-            cherrypy.response.headers['Access-Control-Allow-Methods'] = 'POST'
-            cherrypy.response.headers['Access-Control-Allow-Headers'] = 'content-type'
-            cherrypy.response.headers['Access-Control-Allow-Origin']  = '*'
-            return True
-        else:
-            cherrypy.response.headers['Access-Control-Allow-Origin'] = '*'
+        cherrypy.response.headers['Access-Control-Allow-Methods'] = 'POST'
+
+        # if cherrypy.request.method == 'OPTIONS':
+        #     cherrypy.response.headers['Access-Control-Allow-Methods'] = 'POST'
+        #     cherrypy.response.headers['Access-Control-Allow-Headers'] = 'content-type'
+        #     cherrypy.response.headers['Access-Control-Allow-Origin']  = '*'
+        #     return True
+        # else:
+        #     cherrypy.response.headers['Access-Control-Allow-Origin'] = '*'
     
     cherrypy.tools.CORS = cherrypy._cptools.HandlerTool(CORS)
 
