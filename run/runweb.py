@@ -1,7 +1,7 @@
 import cherrypy
 import os
 import json
-# import cv2
+import cv2
 import qrcode
 import numpy as np
 
