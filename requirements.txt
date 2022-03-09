@@ -10,7 +10,7 @@ jaraco.functools==3.5.0
 jaraco.text==3.7.0
 more-itertools==8.12.0
 numpy==1.22.3
-opencv-python-headless==4.2.0.32
+opencv-python-headless==4.5.5.64
 opencv-python==4.5.5.64
 Pillow==9.0.1
 portend==3.1.0
