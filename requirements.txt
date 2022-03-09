@@ -9,8 +9,14 @@ jaraco.context==4.1.1
 jaraco.functools==3.5.0
 jaraco.text==3.7.0
 more-itertools==8.12.0
+numpy==1.22.3
+opencv-python==4.5.5.64
+Pillow==9.0.1
 portend==3.1.0
+PyQRCode==1.2.1
 pytz==2021.3
+qrcode==7.3.1
+qrtools==0.0.2
 six==1.16.0
 tempora==5.0.1
 zc.lockfile==2.0
