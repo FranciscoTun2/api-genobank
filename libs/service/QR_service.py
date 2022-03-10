@@ -18,6 +18,8 @@ class QR_service:
     img = cv2.imdecode(np.fromstring(file, np.uint8), cv2.IMREAD_COLOR)
     detector = cv2.QRCodeDetector()
     dato, bbox, straight_qrcode = detector.detectAndDecode(img)
+    print(dato)
+
     return dato
 
   def jsonify(self, dato):
@@ -27,7 +29,6 @@ class QR_service:
       arrayData = dato.split("%7C")
       jsonData = {}
       jsonData["arrayData"] = arrayData
-      print(jsonData)
       return jsonData
     except:
       raise Exception("Error durin Jsonify")
