@@ -32,8 +32,8 @@ class AppServer(object):
     @cherrypy.tools.json_out()
     def read_qrcode(self, file, data):
         dato = self.qr_service.decode(file)
-        _json= self.qr_service.jsonify(dato)
-        return _json
+        # _json= self.qr_service.jsonify(dato)
+        return dato
 
 class GenoBank(object):
     def __init__(self):
