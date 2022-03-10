@@ -27,6 +27,7 @@ class QR_service:
       arrayData = dato.split("%7C")
       jsonData = {}
       jsonData["arrayData"] = arrayData
+      print(jsonData)
       return jsonData
     except:
       raise Exception("Error durin Jsonify")
