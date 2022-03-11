@@ -1,11 +1,16 @@
 import cherrypy
 import os
-import json
-import cv2
-import qrcode
-import numpy as np
+# import json
+# import qrcode
+
+from libs.domain import QR
+from libs.service import QR_service
 
 class AppServer(object):
+    def __init__(self):
+        qr_domain = QR.QR()
+        self.qr_service = QR_service.QR_service(qr_domain)
+
     def CORS():
         if cherrypy.request.method == 'OPTIONS':
             cherrypy.response.headers['Access-Control-Allow-Methods'] = 'POST'
@@ -26,14 +31,18 @@ class AppServer(object):
     @cherrypy.tools.allow(methods=['POST'])
     @cherrypy.tools.json_out()
     def read_qrcode(self, file, data):
-        file = file.file
-        file = file.read()
-        # decode binary to image
-        img = cv2.imdecode(np.fromstring(file, np.uint8), cv2.IMREAD_COLOR)
-        detector = cv2.QRCodeDetector()
-        dato, bbox, straight_qrcode = detector.detectAndDecode(img)
-        return dato
+        dato = self.qr_service.decode(file)
+        _json= self.qr_service.jsonify(dato)
+        return dato,_json
 
+    @cherrypy.expose
+    @cherrypy.config(**{'tools.CORS.on': True})
+    @cherrypy.tools.allow(methods=['POST'])
+    @cherrypy.tools.json_out()
+    def sign_up(self, data):
+        print("sign up", data)
+        return data
+        
 class GenoBank(object):
     def __init__(self):
         return None
