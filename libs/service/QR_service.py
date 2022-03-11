@@ -3,8 +3,6 @@ from libs.exceptions import DomainInjectionError
 from libs.domain import QR
 import numpy as np
 import cv2
-
-
 class QR_service:
   def __init__(self, _qr):
     if not isinstance(_qr, QR.QR):
@@ -19,7 +17,6 @@ class QR_service:
     detector = cv2.QRCodeDetector()
     dato, bbox, straight_qrcode = detector.detectAndDecode(img)
     print(dato)
-
     return dato
 
   def jsonify(self, dato):
@@ -31,5 +28,5 @@ class QR_service:
       jsonData["arrayData"] = arrayData
       return jsonData
     except:
-      raise Exception("Error durin Jsonify")
+      raise Exception("Error durin Jsonify. Wrong QR code data")
     

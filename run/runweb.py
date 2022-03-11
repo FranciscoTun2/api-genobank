@@ -1,8 +1,5 @@
 import cherrypy
 import os
-# import json
-# import qrcode
-
 from libs.domain import QR
 from libs.service import QR_service
 
