@@ -39,6 +39,18 @@ class AppServer(object):
         _json= self.qr_service.jsonify(dato)
         return dato,_json
 
+
+    @cherrypy.expose
+    @cherrypy.config(**{'tools.CORS.on': True})
+    @cherrypy.tools.allow(methods=['POST'])
+    @cherrypy.tools.json_out()
+    def validate_pdf(self, file):
+        pdf_image = self.qr_service.pdf_to_image(file)
+        dato = self.qr_service.decode_qr_pdf(pdf_image[0])
+        print(dato)
+        _json= self.qr_service.jsonify(dato)
+        return _json
+    
     @cherrypy.expose
     @cherrypy.config(**{'tools.CORS.on': True})
     @cherrypy.tools.allow(methods=['POST'])
@@ -46,8 +58,15 @@ class AppServer(object):
     def sign_up(self, data):
         data = self.patient_service.patient.validate(data)
         self.patient_service.create(data)
-        # print("\n\n",data,"\n\n")
-        # self.patient_service.create(data)
+
+
+    @cherrypy.expose
+    @cherrypy.config(**{'tools.CORS.on': True})
+    @cherrypy.tools.allow(methods=['GET'])
+    @cherrypy.tools.json_out()
+    def all_patients(self):
+        return self.patient_service.all_patients()
+
 
         
 class GenoBank(object):

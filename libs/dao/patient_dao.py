@@ -9,27 +9,41 @@ class patient_dao:
     self.table = "patients"
   
   def create(self, data):
-    print(data)
-    # data["id"]
-    cur = []
+    # print(data)
+    print("\n\n",data,"\n\n")
 
-    # try:
-    #   fields = f"""(id, name, idnumber, investigator, lab_logo, lab_name, test, test_result, test_date, created_at, updated_at)"""
-    #   sql = f"""INSERT INTO {self.table} {fields} VALUES ({data.})"""
-    #   cur = self.con.cursor()
-    #   cur.execute(sql)
-    #   rows = []
-    #   for row in cur.fetchall():
-    #       rows.append( dbhelpers.reg(cur, row) )
-    #   cur.close()
-    #   if rows:
-    #       return rows[0]
-    #   else:
-    #       return False
-    # except (psycopg2.DatabaseError) as error:
-    #     self.con.rollback()
-    #     cur.close()
-    #     raise Exception(str(error))
+    try:
+      fields = f"""(name, idnumber, investigator, lab_logo, lab_name, test, test_result, test_date, email)"""
+      sql = f"""INSERT INTO {self.table} {fields} VALUES ('{data["name"]}', '{data["idnumber"]}', '{data["labInvestigator"]}', '{data["labLogo"]}', '{data["labName"]}', '{data["test"]}', '{data["testresult"]}', '{data["testdate"]}','{data["email"]}')"""
+      print("\n\n",sql,"\n\n")
+      cur = self.con.cursor()
+      cur.execute(sql)
+      self.con.commit()
+      cur.close()
+      return cur
+    except (psycopg2.DatabaseError) as error:
+        self.con.rollback()
+        cur.close()
+        raise Exception(str(error))
+
+
+  def all_patients(self):
+    try:
+      sql = f"""SELECT * FROM {self.table}"""
+      cur = self.con.cursor()
+      cur.execute(sql)
+      rows = []
+      for row in cur.fetchall():
+        rows.append( dbhelpers.reg(cur, row) )
+      cur.close()
+      if rows:
+        return rows[0]
+      else:
+        return False
+    except (psycopg2.DatabaseError) as error:
+      self.con.rollback()
+      cur.close()
+      raise Exception(str(error))
 
 
   def validate(self, data):

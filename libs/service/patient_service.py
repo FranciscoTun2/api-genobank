@@ -13,5 +13,11 @@ class patient_service:
     created = self.patient.create(data)
     if not created:
       raise Exception("Error during patient creation")
+    return "ok"
+
+  def all_patients(self):
+    patients = self.patient.all_patients()
+    print(patients)
+    return patients
 
   

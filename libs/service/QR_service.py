@@ -3,6 +3,12 @@ from libs.exceptions import DomainInjectionError
 from libs.dao import QR_dao
 import numpy as np
 import cv2
+
+from pyzbar import pyzbar 
+from PIL import Image
+from pdf2image import convert_from_path, convert_from_bytes
+
+
 class QR_service:
   def __init__(self, _qr):
     if not isinstance(_qr, QR_dao.QR):
@@ -16,8 +22,24 @@ class QR_service:
     img = cv2.imdecode(np.fromstring(file, np.uint8), cv2.IMREAD_COLOR)
     detector = cv2.QRCodeDetector()
     dato, bbox, straight_qrcode = detector.detectAndDecode(img)
-    print(dato)
+    print("\n\n",dato,"\n\n")
     return dato
+
+  def decodePyzbar(self, file):
+    image = Image.open(file.file)
+    qr_code = pyzbar.decode(image)[0]
+    print(qr_code)
+    data = qr_code.data.decode("utf-8").encode("shift-jis").decode("utf-8")
+    return data
+
+  def pdf_to_image(self, file):
+    images = convert_from_bytes(file.file.read())
+    return images
+
+  def decode_qr_pdf(self, file):
+    qr_code = pyzbar.decode(file)[0]
+    data = qr_code.data.decode("utf-8").encode("shift-jis").decode("utf-8")
+    return data
 
   def jsonify(self, dato):
     try:
