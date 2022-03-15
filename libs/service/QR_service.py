@@ -1,11 +1,11 @@
 from libs.domain import Encryption
 from libs.exceptions import DomainInjectionError
-from libs.domain import QR
+from libs.dao import QR_dao
 import numpy as np
 import cv2
 class QR_service:
   def __init__(self, _qr):
-    if not isinstance(_qr, QR.QR):
+    if not isinstance(_qr, QR_dao.QR):
       raise DomainInjectionError.DomainInjectionError("QR_service", "Qr")
     self.qr = _qr
     self.encryption = Encryption.Encryption()

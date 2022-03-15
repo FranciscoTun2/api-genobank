@@ -1,8 +1,8 @@
 import cherrypy
 import os
 from libs import database
-from libs.domain import QR
-from libs.domain import patient
+from libs.dao import QR_dao
+from libs.dao import patient_dao
 from libs.service import QR_service
 from libs.service import patient_service
 
@@ -10,10 +10,10 @@ from libs.service import patient_service
 class AppServer(object):
     def __init__(self):
         self.db = database.database()
-        qr_domain = QR.QR()
-        patient_domain = patient.patient(self.db.con)
-        self.qr_service = QR_service.QR_service(qr_domain)
-        self.patient_service = patient_service.patient_service(patient_domain)
+        qr_dao = QR_dao.QR()
+        pattient_dao = patient_dao.patient_dao(self.db.con)
+        self.qr_service = QR_service.QR_service(qr_dao)
+        self.patient_service = patient_service.patient_service(pattient_dao)
 
     def CORS():
         if cherrypy.request.method == 'OPTIONS':
@@ -44,8 +44,9 @@ class AppServer(object):
     @cherrypy.tools.allow(methods=['POST'])
     @cherrypy.tools.json_out()
     def sign_up(self, data):
-        self.patient_service.patient.validate(data)
-        print("\n\n",data,"\n\n")
+        data = self.patient_service.patient.validate(data)
+        self.patient_service.create(data)
+        # print("\n\n",data,"\n\n")
         # self.patient_service.create(data)
 
         

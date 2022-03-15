@@ -1,10 +1,10 @@
 from libs.domain import Encryption
 from libs.exceptions import DomainInjectionError
-from libs.domain import patient
+from libs.dao import patient_dao
 
 class patient_service:
   def __init__(self, _patient):
-    if not isinstance(_patient, patient.patient):
+    if not isinstance(_patient, patient_dao.patient_dao):
       raise DomainInjectionError.DomainInjectionError("patient_service", "patient")
     self.patient = _patient
     self.encryption = Encryption.Encryption()
