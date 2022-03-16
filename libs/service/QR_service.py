@@ -37,9 +37,12 @@ class QR_service:
     return images
 
   def decode_qr_pdf(self, file):
-    qr_code = pyzbar.decode(file)[0]
-    data = qr_code.data.decode("utf-8").encode("shift-jis").decode("utf-8")
-    return data
+    try:
+      qr_code = pyzbar.decode(file)[0]
+      data = qr_code.data.decode("utf-8").encode("shift-jis").decode("utf-8")
+      return data
+    except:
+      return False
 
   def jsonify(self, dato):
     try:
@@ -48,7 +51,9 @@ class QR_service:
       arrayData = dato.split("%7C")
       jsonData = {}
       jsonData["arrayData"] = arrayData
+      jsonData["validated"] = True 
       return jsonData
     except:
-      raise Exception("Error durin Jsonify. Wrong QR code data")
+      return {"validated": False}
+      # raise Exception("Error durin Jsonify. Wrong QR code data")
     

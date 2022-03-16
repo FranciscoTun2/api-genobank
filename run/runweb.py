@@ -46,10 +46,12 @@ class AppServer(object):
     @cherrypy.tools.json_out()
     def validate_pdf(self, file):
         pdf_image = self.qr_service.pdf_to_image(file)
-        dato = self.qr_service.decode_qr_pdf(pdf_image[0])
-        print(dato)
-        _json= self.qr_service.jsonify(dato)
-        return _json
+        data = self.qr_service.decode_qr_pdf(pdf_image[0])
+        print(data)
+        if not data:
+            return {"validated": False}
+        _json = self.qr_service.jsonify(data)
+        return data,_json
     
     @cherrypy.expose
     @cherrypy.config(**{'tools.CORS.on': True})
