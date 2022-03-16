@@ -3,11 +3,9 @@ from libs.exceptions import DomainInjectionError
 from libs.dao import QR_dao
 import numpy as np
 import cv2
-
 from pyzbar import pyzbar 
 from PIL import Image
 from pdf2image import convert_from_path, convert_from_bytes
-
 
 class QR_service:
   def __init__(self, _qr):
