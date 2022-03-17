@@ -42,6 +42,14 @@ class QR_service:
     except:
       return False
 
+  def validate_data(self, data):
+    validated = self.qr.validate_data(data)
+    if validated:
+      return {"validated": True}
+    else:
+      return {"validated": False}
+
+
   def jsonify(self, dato):
     try:
       dato = dato.split("#")[1]
