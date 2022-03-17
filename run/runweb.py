@@ -37,7 +37,7 @@ class AppServer(object):
     @cherrypy.tools.json_out()
     def pin_ipfs(self, img_data):
         ipfs_upload = self.ipfs_servicei.pin_ipfs(img_data)
-        # return ipfs_upload
+        return ipfs_upload
 
     @cherrypy.expose
     @cherrypy.config(**{'tools.CORS.on': True})

@@ -10,3 +10,4 @@ class ipfs_service:
 
     def pin_ipfs(self, data):
       ipfss = self.ipfs.pin_ipfs(data)
+      return ipfss

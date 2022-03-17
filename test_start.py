@@ -4,11 +4,27 @@ import requests
 import json
 
 image = open('sitegenobank.png', 'rb')
-metadata = {"name": "MyExampleDOcument","keyvalues": {"Company": "Pnnatas And Co"}}
+# metadata = {
+#     "name": 'ExampleNameOfDocument.pdf',
+#     "keyvalues": {
+#         "LawyerName": 'Lawyer001',
+#         "ClientID": 'Client002',
+#         "ChargeCode": 'Charge003'
+#         "Cost": "100.00"
+#     }
+# }
+
+metadata = {
+    'name': 'ExampleNameOfDocument.pdf',
+    'keyvalues': {
+        'user': 'Lawyerfsdfijsdf001'
+    }
+}
 
 _file = {
     'file': image,
-    'pinataMetadata': metadata
+    'pinataMetadata': metadata,
+    'pinataOptions': {"cidVersion": 0}
     }
 
 
