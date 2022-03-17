@@ -30,8 +30,8 @@ class ipfs:
       )
       myfile = {
             'file': image,
-            'pinataMetadata': metadata,
-            'pinataOptions': json.dumps({"cidVersion": '0'}, separators=(',', ':'))
+            # 'pinataMetadata': metadata,
+            # 'pinataOptions': json.dumps({"cidVersion": '0'}, separators=(',', ':'))
         }
       _headers = {
             "pinata_api_key": settings.PINATA_API_KEY,
