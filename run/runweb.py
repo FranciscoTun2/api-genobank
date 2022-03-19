@@ -37,7 +37,7 @@ class AppServer(object):
     @cherrypy.tools.json_out()
     def pin_ipfs(self, img_data):
         ipfs_upload = self.ipfs_servicei.pin_ipfs(img_data)
-        # return ipfs_upload
+        return ipfs_upload
 
     @cherrypy.expose
     @cherrypy.config(**{'tools.CORS.on': True})
@@ -55,11 +55,12 @@ class AppServer(object):
     def validate_pdf(self, file):
         pdf_image = self.qr_service.pdf_to_image(file)
         data = self.qr_service.decode_qr_pdf(pdf_image[0])
-        print(data)
-        if not data:
-            return {"validated": False}
-        _json = self.qr_service.jsonify(data)
-        return data,_json
+        validated = self.qr_service.validate_data(data)
+        # if not data:
+        #     return {"validated": False}
+        # _json = self.qr_service.jsonify(data)
+        # return data,_json
+
     
     @cherrypy.expose
     @cherrypy.config(**{'tools.CORS.on': True})

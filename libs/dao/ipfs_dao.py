@@ -1,3 +1,4 @@
+import io
 import json
 import psycopg2
 import requests
@@ -11,26 +12,35 @@ class ipfs:
 
   def pin_ipfs(self, _data):
     try:
-      print("\n\nIT WORKS!!!\n\n")
-      # print("\ndata\n",_data.file)
-      # print("\ndata fp\n",data.rb)
+      image = io.BufferedReader(_data.file)
+      # metadata = """{
+      #     'name': 'ExampleNameOfDocument.pdf',
+      #     'keyvalues': {
+      #         'user': 'Lawyerfsdfijsdf001'
+      #     }
+      # }"""
 
-
-      # myfile = {'file' :  open('download.png','rb')}
-      myfile = {"file":open('download.png','rb')}
-      print("\n\n MYfile:\n",myfile,"\n\n")
-
+      metadata = json.dumps({
+        'name':'weather.jpg',
+        'user':'0xa5461cbCf9c767264CC619bCF1AF3AaD083A5b22',
+        'keyvalues':{
+          'user':'0xa5461cbCf9c767264CC619bCF1AF3AaD083A5b22'
+        }},
+        separators=(',', ':')
+      )
+      myfile = {
+            'file': image,
+            # 'pinataMetadata': metadata,
+            # 'pinataOptions': json.dumps({"cidVersion": '0'}, separators=(',', ':'))
+        }
       _headers = {
             "pinata_api_key": settings.PINATA_API_KEY,
             "pinata_secret_api_key": settings.PINATA_API_SECRET
       }
-      # body = json.dumps(data)
-      # body = _data
-      # print("\n\n",body,"\n\n")
-      response = requests.post(settings.PINATA_HOST, data = myfile, headers = _headers)
-      print("\n\n",response.json)
+      response = requests.post(settings.PINATA_HOST, files=myfile, headers=_headers)
+      print(response.json)
       print(response.text)
-      print(response.status_code,"\n\n")
-
+      print(response.status_code)
+      return response.json()
     except:
       raise
