@@ -55,11 +55,11 @@ class AppServer(object):
     def validate_pdf(self, file):
         pdf_image = self.qr_service.pdf_to_image(file)
         data = self.qr_service.decode_qr_pdf(pdf_image[0])
-        validated = self.qr_service.validate_data(data)
+        # validated = self.qr_service.validate_data(data)
         # if not data:
         #     return {"validated": False}
-        # _json = self.qr_service.jsonify(data)
-        # return data,_json
+        _json = self.qr_service.jsonify(data)
+        return data,_json
 
     
     @cherrypy.expose
