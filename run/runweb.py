@@ -80,7 +80,7 @@ class GenoBank(object):
     def __init__(self):
         return None
 
-    def start (self, port=5000):
+    def start (self, port=8080):
         config = {
             'global': {
                 'server.socket_host': '0.0.0.0',
