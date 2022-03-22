@@ -1,6 +1,6 @@
 class settings:
-  DOMAIN = "http://localhost:8081"
-  PORT = 8081
+  DOMAIN = "http://localhost:8080"
+  PORT = 8080
 
   # Database Settings
   DBNAME = "genobank_db"

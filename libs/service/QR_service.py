@@ -6,6 +6,7 @@ import cv2
 from pyzbar import pyzbar 
 from PIL import Image
 from pdf2image import convert_from_path, convert_from_bytes
+import pytesseract
 
 class QR_service:
   def __init__(self, _qr):
@@ -33,6 +34,17 @@ class QR_service:
   def pdf_to_image(self, file):
     images = convert_from_bytes(file.file.read())
     return images
+
+  def get_text_from_pdf (self, image):
+    try:
+      image = image.fp
+      print(image)
+      # b64File = image.convert('RGB').tobytes()
+      text = pytesseract.image_to_string(image)
+      # print(text)
+
+    except:
+      raise
 
   def decode_qr_pdf(self, file):
     try:

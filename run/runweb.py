@@ -55,6 +55,7 @@ class AppServer(object):
     def validate_pdf(self, file):
         try:
             pdf_image = self.qr_service.pdf_to_image(file)
+            # text = self.qr_service.get_text_from_pdf(pdf_image[0])
             data = self.qr_service.decode_qr_pdf(pdf_image[0])
             # validated = self.qr_service.validate_data(data)
             # if not data:
@@ -63,7 +64,6 @@ class AppServer(object):
             return data,_json
         except:
             raise 
-
     
     @cherrypy.expose
     @cherrypy.config(**{'tools.CORS.on': True})
@@ -84,7 +84,7 @@ class GenoBank(object):
     def __init__(self):
         return None
 
-    def start (self, port=8081):
+    def start (self, port=8080):
         config = {
             'global': {
                 'server.socket_host': '0.0.0.0',
