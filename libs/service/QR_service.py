@@ -6,7 +6,7 @@ import cv2
 from pyzbar import pyzbar 
 from PIL import Image
 from pdf2image import convert_from_path, convert_from_bytes
-import pytesseract
+# import pytesseract
 
 class QR_service:
   def __init__(self, _qr):
@@ -35,16 +35,16 @@ class QR_service:
     images = convert_from_bytes(file.file.read())
     return images
 
-  def get_text_from_pdf (self, image):
-    try:
-      image = image.fp
-      print(image)
-      # b64File = image.convert('RGB').tobytes()
-      text = pytesseract.image_to_string(image)
-      # print(text)
+  # def get_text_from_pdf (self, image):
+  #   try:
+  #     image = image.fp
+  #     print(image)
+  #     # b64File = image.convert('RGB').tobytes()
+  #     text = pytesseract.image_to_string(image)
+  #     # print(text)
 
-    except:
-      raise
+  #   except:
+  #     raise
 
   def decode_qr_pdf(self, file):
     try:
@@ -54,12 +54,18 @@ class QR_service:
     except:
       return False
 
-  def validate_data(self, data):
-    validated = self.qr.validate_data(data)
-    if validated:
-      return {"validated": True}
-    else:
-      return {"validated": False}
+  def validate_data(self, json_data, name):
+    if "arrayData" in json_data:
+      patiend_data = json_data["arrayData"]
+      if len(patiend_data) == 11:
+        if len(name) > 0:
+          validated = self.qr.validate_data(patiend_data, name)
+          if not validated:
+            return {"validated": False}
+          else:
+            json_data["validated"] = validated
+    
+    return json_data
 
 
   def jsonify(self, dato):
@@ -69,7 +75,7 @@ class QR_service:
       arrayData = dato.split("%7C")
       jsonData = {}
       jsonData["arrayData"] = arrayData
-      jsonData["validated"] = True 
+      # jsonData["validated"] = True 
       return jsonData
     except:
       return {"validated": False}

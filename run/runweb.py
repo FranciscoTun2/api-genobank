@@ -52,7 +52,7 @@ class AppServer(object):
     @cherrypy.config(**{'tools.CORS.on': True})
     @cherrypy.tools.allow(methods=['POST'])
     @cherrypy.tools.json_out()
-    def validate_pdf(self, file):
+    def validate_pdf(self, file, name):
         try:
             pdf_image = self.qr_service.pdf_to_image(file)
             # text = self.qr_service.get_text_from_pdf(pdf_image[0])
@@ -61,7 +61,11 @@ class AppServer(object):
             # if not data:
             #     return {"validated": False}
             _json = self.qr_service.jsonify(data)
-            return data,_json
+            _json = self.qr_service.validate_data(_json, name)
+            if _json["validated"]:
+                return data, _json
+            else:
+                return _json
         except:
             raise 
     

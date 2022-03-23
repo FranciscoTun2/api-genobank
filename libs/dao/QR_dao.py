@@ -6,26 +6,26 @@ class QR:
     self.taxonomy = None
     self.added = 0
 
-  def validate_data(self, data):
-    splitUrl = data.split("#")
-    if len(splitUrl) == 2:
-      data = splitUrl[1].replace("%20", " ").split("%7C")
-      data_time = data[8]
+  def validate_data(self, patient_data, name):
+    validated = 0
 
-      # parse datetime.now to timestamp
-      now = datetime.now()
-      now_timestamp = now.timestamp()
+    if patient_data[0].upper() != name.upper():
+      validated += 1
 
-      now_timestamp = int(now_timestamp * 1000)
+    if patient_data[3].upper() != "N":
+      validated += 1
 
-      # now = int(now)
+    
 
-
-
-      print(data_time)
-      print(now_timestamp)
+    print(patient_data[8])
+    
+    if validated == 0:
+      return True
     else:
       return False
+
+    
+
 
 
 
