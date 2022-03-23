@@ -27,7 +27,9 @@ class AppServer(object):
             cherrypy.response.headers['Access-Control-Allow-Origin'] = '*'
     cherrypy.tools.CORS = cherrypy._cptools.HandlerTool(CORS)
 
+
     @cherrypy.expose
+    @cherrypy.config(**{'tools.CORS.on': True})
     def index(self):
         return "Genobank.io (TM) API"
 
