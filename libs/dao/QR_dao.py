@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from numpy import double
 
 class QR:
@@ -9,54 +8,38 @@ class QR:
     self.added = 0
 
   def validate_data(self, patient_data, name):
+    valString = ""
     validated = 0
+    now_timestamp = float(datetime.now().timestamp())
+    c_timestamp = int(patient_data[8])
+    c_timestamp = float(c_timestamp/1000)
 
+    life_time = now_timestamp - c_timestamp
+    life_timer_h = life_time / (3600)
+
+    valString+= "validating if name:\n" + name + "\nis equal to:\n" + patient_data[0].upper() + "\n"
     if patient_data[0].upper() != name.upper():
       validated += 1
 
+    valString+= "validating test type 1) Polymerase, 2) Antigen:\n" + str(patient_data[2]) + "\n"
+    if int(patient_data[2]) == 1:
+      valString+= "Polymerase\n"
+      valString+= "Life time is over 48 hours\n"+ str(life_timer_h) + "\n"
+      if life_timer_h > 48:
+        validated += 1
+    if int(patient_data[2]) == 2:
+      valString+= "Antigen\n"
+      valString+= "Life time is over 24 hours\n"+ str(life_timer_h) + "\n"
+      if life_timer_h > 24:
+        validated += 1
+
     if patient_data[3].upper() != "N":
       validated += 1
+    valString+= "validating if patient is infected:\n" + patient_data[3] + "\n"
+    # print(life_timer_h)
 
-    # print(patient_data[8])
-    timestamp_record = int(patient_data[8])
-    timestamp_record = float(timestamp_record/1000)
-    date_record = datetime.fromtimestamp(timestamp_record)
-
-    timestamp_now = float(datetime.now().timestamp())
-
-    difference_in_seconds = timestamp_now - timestamp_record
-    # difference_in_minutes = difference_in_seconds / 60
-
-
-    print(timestamp_record)
-    print(timestamp_now)
-
-    print(difference_in_seconds)
-    hours = difference_in_seconds / (3600 * 24)
-    print(hours)
-
-    
+    print(valString)
     if validated == 0:
       return True
     else:
       return False
-
-
-  # def decodeCertificateUriData(self, data, taxnonomy):
-  #   try:
-  #     values = data.replace("%20", " ").split("%7C")
-  #     print(len(values))
-  #     if len(values) != 11:
-  #       return False
-  #     else:
-  #       procedure = taxonomy.getProcedure(values[2])
-  #       procedureResult = taxonomy.getProcedureResultByCode(procedure, values[3])
-
-  #       platformData = {
-  #         "txHash": values[10 + self.added],
-  #         "signature": values[9 + self.added],
-  #         "timeStamp": Date(values[8 + self.added]),
-  #       }
-  #     print (values)
-  #   except:
-  #     raise

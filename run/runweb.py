@@ -63,6 +63,7 @@ class AppServer(object):
             # if not data:
             #     return {"validated": False}
             _json = self.qr_service.jsonify(data)
+
             _json = self.qr_service.validate_data(_json, name)
             if _json["validated"]:
                 return data, _json

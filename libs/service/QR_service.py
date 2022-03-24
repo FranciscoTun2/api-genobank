@@ -50,6 +50,7 @@ class QR_service:
     try:
       qr_code = pyzbar.decode(file)[0]
       data = qr_code.data.decode("utf-8").encode("shift-jis").decode("utf-8")
+      # print(data)
       return data
     except:
       return False
