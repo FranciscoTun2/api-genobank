@@ -15,42 +15,14 @@ class QR_service:
     self.qr = _qr
     self.encryption = Encryption.Encryption()
 
-  def decode(self, file):
-    file = file.file
-    file = file.read()
-    img = cv2.imdecode(np.fromstring(file, np.uint8), cv2.IMREAD_COLOR)
-    detector = cv2.QRCodeDetector()
-    dato, bbox, straight_qrcode = detector.detectAndDecode(img)
-    print("\n\n",dato,"\n\n")
-    return dato
-
-  def decodePyzbar(self, file):
-    image = Image.open(file.file)
-    qr_code = pyzbar.decode(image)[0]
-    print(qr_code)
-    data = qr_code.data.decode("utf-8").encode("shift-jis").decode("utf-8")
-    return data
-
   def pdf_to_image(self, file):
     images = convert_from_bytes(file.file.read())
     return images
-
-  # def get_text_from_pdf (self, image):
-  #   try:
-  #     image = image.fp
-  #     print(image)
-  #     # b64File = image.convert('RGB').tobytes()
-  #     text = pytesseract.image_to_string(image)
-  #     # print(text)
-
-  #   except:
-  #     raise
 
   def decode_qr_pdf(self, file):
     try:
       qr_code = pyzbar.decode(file)[0]
       data = qr_code.data.decode("utf-8").encode("shift-jis").decode("utf-8")
-      # print(data)
       return data
     except:
       return False
@@ -65,9 +37,7 @@ class QR_service:
             return {"validated": False}
           else:
             json_data["validated"] = validated
-    
     return json_data
-
 
   def jsonify(self, dato):
     try:
@@ -76,7 +46,6 @@ class QR_service:
       arrayData = dato.split("%7C")
       jsonData = {}
       jsonData["arrayData"] = arrayData
-      # jsonData["validated"] = True 
       return jsonData
     except:
       return {"validated": False}
