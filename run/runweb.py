@@ -1,5 +1,6 @@
 import cherrypy
 import os
+import json
 from libs import database
 from libs.dao import QR_dao
 from libs.dao import patient_dao
@@ -65,6 +66,23 @@ class AppServer(object):
     def sign_up(self, data):
         data = self.patient_service.patient.validate(data)
         self.patient_service.create(data)
+
+    @cherrypy.expose
+    @cherrypy.config(**{'tools.CORS.on': True})
+    @cherrypy.tools.allow(methods=['PUT'])
+    @cherrypy.tools.json_out()
+    def consents(self):
+        try:
+            data = cherrypy.request.body.read()
+            data = data.decode('utf-8')
+            data = json.loads(data)
+            if "file" in data:
+                print(data["file"])
+            print(data)
+            return data
+        except:
+            raise
+
 
     @cherrypy.expose
     @cherrypy.config(**{'tools.CORS.on': True})
