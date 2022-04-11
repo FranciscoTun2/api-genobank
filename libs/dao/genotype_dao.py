@@ -11,10 +11,8 @@ class genotype_dao:
   def create(self, data):
     try:
       fields = f"""(jsondata, consent, test_type, genotype)"""
-      print("\ngenotype_dao",data)
       _json = json.dumps(data)
       sql = f"""INSERT INTO {self.table} {fields} VALUES ('{_json}', '{json.dumps(data["agreements"])}', '{data["genetic_test"]}', '{data["file"]}')"""
-      print("\n\nINSERT GENOTYPE DATA\n",sql,"\n\n")
       cur = self.con.cursor()
       cur.execute(sql)
       self.con.commit()

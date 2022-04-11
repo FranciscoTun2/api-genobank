@@ -9,13 +9,9 @@ class patient_dao:
     self.table = "patients"
   
   def create(self, data):
-    # print(data)
-    print("\n\n",data,"\n\n")
-
     try:
       fields = f"""(name, idnumber, investigator, lab_logo, lab_name, test, test_result, test_date, email)"""
       sql = f"""INSERT INTO {self.table} {fields} VALUES ('{data["name"]}', '{data["idnumber"]}', '{data["labInvestigator"]}', '{data["labLogo"]}', '{data["labName"]}', '{data["test"]}', '{data["testresult"]}', '{data["testdate"]}','{data["email"]}')"""
-      print("\n\n",sql,"\n\n")
       cur = self.con.cursor()
       cur.execute(sql)
       self.con.commit()

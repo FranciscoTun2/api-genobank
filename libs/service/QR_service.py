@@ -30,7 +30,6 @@ class QR_service:
   def validate_data(self, json_data, name):
     if "arrayData" in json_data:
       patiend_data = json_data["arrayData"]
-      print(len(patiend_data))
       if len(patiend_data) == 14:
         if len(name) > 0:
           validated = self.qr.validate_data(patiend_data, name)
@@ -55,7 +54,6 @@ class QR_service:
       # dato = dato.replace("%5B", "")
       
       arrayData = dato.split("%7C")
-      print(arrayData)
       jsonData = {}
       jsonData["arrayData"] = arrayData
       return jsonData

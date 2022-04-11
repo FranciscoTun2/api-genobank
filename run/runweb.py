@@ -27,7 +27,6 @@ class AppServer(object):
             cherrypy.response.headers['Access-Control-Allow-Origin'] = '*'
             cherrypy.response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
             cherrypy.response.headers['Access-Control-Allow-Headers'] = 'Content-Type, X-Requested-With'
-            # cherrypy.response.headers['Access-Control-Max-Age'] = '86400'
         
             # cherrypy.response.headers['Access-Control-Allow-Methods'] = 'POST'
             # cherrypy.response.headers['Access-Control-Allow-Headers'] = 'content-type'
@@ -76,7 +75,6 @@ class AppServer(object):
         data = self.patient_service.patient.validate(data)
         self.patient_service.create(data)
 
-
     # TODO: recives a JSON in the body with the signature
     @cherrypy.expose
     @cherrypy.config(**{'tools.CORS.on': True})
@@ -91,14 +89,12 @@ class AppServer(object):
         except:
             raise
 
-
     @cherrypy.expose
     @cherrypy.config(**{'tools.CORS.on': True})
     @cherrypy.tools.allow(methods=['GET'])
     @cherrypy.tools.json_out()
     def all_patients(self):
         return self.patient_service.all_patients()
-
 class GenoBank(object):
     def __init__(self):
         return None

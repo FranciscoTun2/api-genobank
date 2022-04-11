@@ -38,9 +38,6 @@ class ipfs:
             "pinata_secret_api_key": settings.PINATA_API_SECRET
       }
       response = requests.post(settings.PINATA_HOST, files=myfile, headers=_headers)
-      print(response.json)
-      print(response.text)
-      print(response.status_code)
       return response.json()
     except:
       raise

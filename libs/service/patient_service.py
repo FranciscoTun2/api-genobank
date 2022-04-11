@@ -17,7 +17,6 @@ class patient_service:
 
   def all_patients(self):
     patients = self.patient.all_patients()
-    print(patients)
     return patients
 
   

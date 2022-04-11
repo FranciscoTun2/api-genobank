@@ -35,9 +35,5 @@ _headers = {
 }
 try:
     response = requests.post("https://api.pinata.cloud/pinning/pinFileToIPFS", files=_file, headers=_headers)
-
-    print(response.json)
-    print(response.text)
-    print(response.status_code)
 except:
     raise
