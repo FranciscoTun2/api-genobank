@@ -4,25 +4,34 @@ import json
 from libs import database
 from libs.dao import QR_dao
 from libs.dao import patient_dao
+from libs.dao import genotype_dao
 from libs.dao import ipfs_dao
 from libs.service import QR_service
 from libs.service import patient_service
+from libs.service import genotype_service
 from libs.service import ipfs_service
 class AppServer(object):
     def __init__(self):
         self.db = database.database()
         qr_dao = QR_dao.QR()
         pattient_dao = patient_dao.patient_dao(self.db.con)
+        geno_dao = genotype_dao.genotype_dao(self.db.con)
         ipfs_daoi = ipfs_dao.ipfs()
         self.qr_service = QR_service.QR_service(qr_dao)
         self.patient_service = patient_service.patient_service(pattient_dao)
+        self.geno_service = genotype_service.genotype_service(geno_dao)
         self.ipfs_servicei = ipfs_service.ipfs_service(ipfs_daoi)
 
     def CORS():
         if cherrypy.request.method == 'OPTIONS':
-            cherrypy.response.headers['Access-Control-Allow-Methods'] = 'POST'
-            cherrypy.response.headers['Access-Control-Allow-Headers'] = 'content-type'
-            cherrypy.response.headers['Access-Control-Allow-Origin']  = '*'
+            cherrypy.response.headers['Access-Control-Allow-Origin'] = '*'
+            cherrypy.response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+            cherrypy.response.headers['Access-Control-Allow-Headers'] = 'Content-Type, X-Requested-With'
+            # cherrypy.response.headers['Access-Control-Max-Age'] = '86400'
+        
+            # cherrypy.response.headers['Access-Control-Allow-Methods'] = 'POST'
+            # cherrypy.response.headers['Access-Control-Allow-Headers'] = 'content-type'
+            # cherrypy.response.headers['Access-Control-Allow-Origin']  = '*'
             return True
         else:
             cherrypy.response.headers['Access-Control-Allow-Origin'] = '*'
@@ -67,19 +76,18 @@ class AppServer(object):
         data = self.patient_service.patient.validate(data)
         self.patient_service.create(data)
 
+
+    # TODO: recives a JSON in the body with the signature
     @cherrypy.expose
     @cherrypy.config(**{'tools.CORS.on': True})
-    @cherrypy.tools.allow(methods=['PUT'])
+    @cherrypy.tools.allow(methods=['POST'])
     @cherrypy.tools.json_out()
     def consents(self):
         try:
             data = cherrypy.request.body.read()
             data = data.decode('utf-8')
             data = json.loads(data)
-            if "file" in data:
-                print(data["file"])
-            print(data)
-            return data
+            self.geno_service.create(data)
         except:
             raise
 
