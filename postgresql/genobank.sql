@@ -13,12 +13,12 @@ CREATE TABLE public.patients(
     updated_at timestamp without time zone DEFAULT timezone('UTC'::text, now()) NOT NULL
 );
 
-CREATE TABLE public.genotypes(
+CREATE TABLE public.genoma(
     id SERIAL NOT NULL,
     jsondata varchar,
     consent varchar,
     test_type varchar,
-    genotype varchar,
+    file_stored varchar,
     created_at timestamp without time zone DEFAULT timezone('UTC'::text, now()) NOT NULL,
     updated_at timestamp without time zone DEFAULT timezone('UTC'::text, now()) NOT NULL
 );

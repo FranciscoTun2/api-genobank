@@ -9,10 +9,12 @@ class genotype_service:
     self.genotype = _genotype
     self.encryption = Encryption.Encryption()
 
-  def create(self, data):
-    if "file" not in data:
-      data["file"] = "File not found"
-    
+  def create(self, data, file):
+    file_name = self.genotype.save_file(file)
+    if not file_name:
+      raise Exception("File not saved")
+
+    data["file"] = file_name
     created = self.genotype.create(data)
     if not created:
       raise Exception("Error during genotype creation")

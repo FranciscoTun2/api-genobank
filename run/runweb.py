@@ -80,12 +80,10 @@ class AppServer(object):
     @cherrypy.config(**{'tools.CORS.on': True})
     @cherrypy.tools.allow(methods=['POST'])
     @cherrypy.tools.json_out()
-    def consents(self):
+    def consents(self, data, file):
         try:
-            data = cherrypy.request.body.read()
-            data = data.decode('utf-8')
             data = json.loads(data)
-            self.geno_service.create(data)
+            self.geno_service.create(data, file)
         except:
             raise
 
