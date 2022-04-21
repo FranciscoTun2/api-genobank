@@ -83,10 +83,10 @@ class AppServer(object):
     def consents(self, data, file):
         try:
             data = json.loads(data)
-            create_nft = self.geno_service.create_nft(data)
-            if not create_nft:
+            nft_hash = self.geno_service.create_nft(data)
+            if not nft_hash:
                 raise Exception("Error during genotype creation")
-            self.geno_service.create(data, file)
+            self.geno_service.create(data, file, nft_hash)
         except:
             raise
 

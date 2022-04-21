@@ -19,7 +19,7 @@ class settings:
 
   # SMARTCONTRACT SETTINGS
   ABI_SM_PATH = "./smart_contract/TokenCollectible.json"
-  SMART_CONTRACT = "0x557a5B62c85FF11Ff9796883E108f3c20C7e2e91"
+  SMART_CONTRACT = "0xA1afd40A14247d533994e855bc5716dc78392990"
   ROOT_KEY = "c51fe1c412b6ec7f5d30261ac55eeac1991153c6a68919806ef69964ba88e3ee"
-
+  
 # Avocado Blockchain at Merida, Yucatan

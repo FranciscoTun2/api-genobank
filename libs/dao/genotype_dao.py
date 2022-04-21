@@ -1,4 +1,5 @@
 from web3 import Web3, HTTPProvider
+from web3.middleware import geth_poa_middleware
 # from web3.middleware import geth_poa_middleware
 import json
 import uuid
@@ -10,6 +11,9 @@ from settings import settings
 class genotype_dao:
   def __init__(self,con):
     self.w3 = Web3(HTTPProvider(settings.PROVIDER))
+    self.w3.middleware_onion.inject(geth_poa_middleware, layer=0)
+    self.account = self.w3.eth.account.privateKeyToAccount(settings.ROOT_KEY)
+    self.w3.eth.default_account = self.account.address
     # self.w3.middleware_onion.inject(geth_poa_middleware, layer=0)
     self.SM_JSONINTERFACE = self.load_smart_contract(settings.ABI_SM_PATH)
     self.con = con
@@ -26,24 +30,24 @@ class genotype_dao:
 
   # call smar contract metrhod using address and jsonInterface
   def mint_nft(self, metadata):
-    account = self.w3.eth.account.privateKeyToAccount(settings.ROOT_KEY)
-    print("\n\n",account.address)
     wallet = metadata["wallet"]
     contract = self.w3.eth.contract(address=settings.SMART_CONTRACT, abi=self.SM_JSONINTERFACE['abi'])
-    print("All functions\n",contract.all_functions())
-    id_address = int(account.address, 16)
-
-
-    # tx_hash = contract.functions.mint(id_address, metadata["wallet"], 'ACTIVE').transact()
-    tx_hash = contract.caller().mint(id_address, wallet, 'ACTIVE').call({'from': '0x1FCe7a83BbE1Cd899AF95A1Dda5299CA06438bA8'})
-    print("tx hash\n",tx_hash)
+    id_address = int(self.account.address, 16)
+    tx = contract.functions.mint(id_address, wallet, 'ACTIVE').buildTransaction({
+        'nonce': self.w3.eth.getTransactionCount(self.account.address)
+    })
+    signed_tx = self.w3.eth.account.signTransaction(tx, private_key=settings.ROOT_KEY)
+    tx_hash = self.w3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    self.w3.eth.waitForTransactionReceipt(tx_hash)    
+    print("tx hash\n",tx_hash.hex())
+    return tx_hash.hex()
 
 
   def create(self, data):
     try:
-      fields = f"""(jsondata, consent, test_type, file_stored)"""
+      fields = f"""(jsondata, consent, test_type, file_stored, nft_hash)"""
       _json = json.dumps(data)
-      sql = f"""INSERT INTO {self.table} {fields} VALUES ('{_json}', '{json.dumps(data["agreements"])}', '{data["genetic_test"]}', '{data["file"]}')"""
+      sql = f"""INSERT INTO {self.table} {fields} VALUES ('{_json}', '{json.dumps(data["agreements"])}', '{data["genetic_test"]}', '{data["file"]}', '{data["nft_hash"]}')"""
       cur = self.con.cursor()
       cur.execute(sql)
       self.con.commit()
