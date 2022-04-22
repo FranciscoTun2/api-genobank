@@ -43,11 +43,19 @@ class genotype_dao:
     return tx_hash.hex()
 
 
+  def generate_token_id (self, token):
+    try:
+      return int(token, 16)
+    except Exception as e:
+      raise Exception(str(e))
+
+
   def create(self, data):
     try:
       fields = f"""(jsondata, consent, test_type, file_stored, nft_hash)"""
       _json = json.dumps(data)
       sql = f"""INSERT INTO {self.table} {fields} VALUES ('{_json}', '{json.dumps(data["agreements"])}', '{data["genetic_test"]}', '{data["file"]}', '{data["nft_hash"]}')"""
+      print(sql)
       cur = self.con.cursor()
       cur.execute(sql)
       self.con.commit()
@@ -58,9 +66,19 @@ class genotype_dao:
       cur.close()
       raise Exception(str(error))
 
+  # def save_file(self, file):
+  #   content_file = str(file.file.read().decode("utf-8"))
+  #   file_name = str(uuid.uuid4())
+  #   with open(f"files/genotypes/{file_name}.txt", "w") as f:
+  #     f.write(content_file)
+  #   return file_name
+
   def save_file(self, file):
-    content_file = str(file.file.read().decode("utf-8"))
+    content_file = str(file.file.read())
     file_name = str(uuid.uuid4())
-    with open(f"files/genotypes/{file_name}.txt", "w") as f:
+    with open(f"files/genotypes/{file_name}.zip", "w") as f:
       f.write(content_file)
     return file_name
+
+
+ 

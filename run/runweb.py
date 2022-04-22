@@ -75,6 +75,17 @@ class AppServer(object):
         data = self.patient_service.patient.validate(data)
         self.patient_service.create(data)
 
+    @cherrypy.expose
+    @cherrypy.config(**{'tools.CORS.on': True})
+    @cherrypy.tools.allow(methods=['POST'])
+    @cherrypy.tools.json_out()
+    def generate_token_id(self, token):
+        id_token = self.geno_service.generate_token_id(token)
+        print(id_token)
+        return str(id_token)
+    
+    
+    
     # TODO: recives a JSON in the body with the signature
     @cherrypy.expose
     @cherrypy.config(**{'tools.CORS.on': True})
@@ -83,10 +94,10 @@ class AppServer(object):
     def consents(self, data, file):
         try:
             data = json.loads(data)
-            nft_hash = self.geno_service.create_nft(data)
-            if not nft_hash:
-                raise Exception("Error during genotype creation")
-            self.geno_service.create(data, file, nft_hash)
+            # nft_hash = self.geno_service.create_nft(data)
+            # if not nft_hash:
+            #     raise Exception("Error during genotype creation")
+            self.geno_service.create(data, file)
         except:
             raise
 

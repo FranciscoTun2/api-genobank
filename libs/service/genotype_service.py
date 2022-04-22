@@ -9,12 +9,12 @@ class genotype_service:
     self.genotype = _genotype
     self.encryption = Encryption.Encryption()
 
-  def create(self, data, file, hash):
+  def create(self, data, file):
     file_name = self.genotype.save_file(file)
     if not file_name:
       raise Exception("File not saved")
     data["file"] = file_name
-    data["nft_hash"] = hash
+    print("\ndata\n", data)
     created = self.genotype.create(data)
     if not created:
       raise Exception("Error during genotype creation")
@@ -25,3 +25,9 @@ class genotype_service:
     if not created:
       raise Exception("Error during genotype creation")
     return created
+
+  def generate_token_id(self, token):
+    token_id = self.genotype.generate_token_id(token)
+    if not token_id:
+      raise Exception("Error during genotype creation")
+    return token_id
