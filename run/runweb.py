@@ -36,7 +36,6 @@ class AppServer(object):
             cherrypy.response.headers['Access-Control-Allow-Origin'] = '*'
     cherrypy.tools.CORS = cherrypy._cptools.HandlerTool(CORS)
 
-
     @cherrypy.expose
     @cherrypy.config(**{'tools.CORS.on': True})
     def index(self):
@@ -75,6 +74,15 @@ class AppServer(object):
         data = self.patient_service.patient.validate(data)
         self.patient_service.create(data)
 
+    @cherrypy.expose
+    @cherrypy.config(**{'tools.CORS.on': True})
+    @cherrypy.tools.allow(methods=['POST'])
+    @cherrypy.tools.json_out()
+    def generate_token_id(self, token):
+        id_token = self.geno_service.generate_token_id(token)
+        print(id_token)
+        return str(id_token)
+    
     # TODO: recives a JSON in the body with the signature
     @cherrypy.expose
     @cherrypy.config(**{'tools.CORS.on': True})
@@ -83,16 +91,38 @@ class AppServer(object):
     def consents(self, data, file):
         try:
             data = json.loads(data)
+            nft_hash = self.geno_service.create_nft(data)
+            data["nft_hash"] = nft_hash
+            if not nft_hash:
+                raise Exception("Error during genotype creation")
             self.geno_service.create(data, file)
         except:
             raise
 
+    # testing
+    @cherrypy.expose
+    @cherrypy.config(**{'tools.CORS.on': True})
+    @cherrypy.tools.allow(methods=['GET'])
+    @cherrypy.tools.json_out()
+    def test(self):
+        address = "0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db"
+        # parse address to int 
+        id_address = int(address, 16)
+        print(address)
+        print(id_address)
+        _json = {
+            "address": address,
+            "id": id_address,
+        }
+        return _json
+        
     @cherrypy.expose
     @cherrypy.config(**{'tools.CORS.on': True})
     @cherrypy.tools.allow(methods=['GET'])
     @cherrypy.tools.json_out()
     def all_patients(self):
-        return self.patient_service.all_patients()
+        patient = self.patient_service.all_patients()
+        return self.patient_service.jsonify(patient)
 class GenoBank(object):
     def __init__(self):
         return None

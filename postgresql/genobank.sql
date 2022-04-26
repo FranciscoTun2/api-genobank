@@ -19,6 +19,7 @@ CREATE TABLE public.genoma(
     consent varchar,
     test_type varchar,
     file_stored varchar,
+    nft_hash varchar,
     created_at timestamp without time zone DEFAULT timezone('UTC'::text, now()) NOT NULL,
     updated_at timestamp without time zone DEFAULT timezone('UTC'::text, now()) NOT NULL
 );

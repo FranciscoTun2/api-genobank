@@ -13,3 +13,20 @@ class settings:
   PINATA_HOST = "https://api.pinata.cloud/pinning/pinFileToIPFS"
   PINATA_API_KEY = "ba65da047212926c9ee4"
   PINATA_API_SECRET = "3897644a77bf3ea3836a17fa1bed1c8897f95e5f148be0728e2f73c48aa7baec"
+
+  # Blockchain Settings
+  PROVIDER = "https://api.avax-test.network/ext/bc/C/rpc"
+
+  # SMARTCONTRACT SETTINGS
+  ABI_SM_PATH = "./smart_contract/TokenCollectible.json"
+  SMART_CONTRACT = "0xfe70a7DfB6ffB1129829f164Ba510Aa9563E888f"
+  ROOT_KEY = "75d38c3079b68b8c9ad030b2688faf7d7951bee72e0fff047c565ad9c5bf3fea"
+
+
+  # TEST WALLET (for testing purposes)
+  # **NEVER** write the configuration of your real wallet
+  TWELVE_WORDS = "visual assume setup shrimp deposit copy damage spirit skin crush this fragile"
+  MY_PRIVATE_KEY = "75d38c3079b68b8c9ad030b2688faf7d7951bee72e0fff047c565ad9c5bf3fea"
+  
+
+# Avocado Blockchain at Merida, Yucatan
