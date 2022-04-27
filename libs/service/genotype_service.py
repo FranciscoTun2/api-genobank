@@ -20,6 +20,15 @@ class genotype_service:
       raise Exception("Error during genotype creation")
     return "ok"
 
+  def save_file_test(self, data, file):
+    file_name = self.genotype.save_file_test(file)
+    if not file_name:
+      raise Exception("File not saved")
+    data["file"] = file_name
+    print("\ndata\n", data)
+    return file_name
+
+
   def create_nft(self, metadata):
     created = self.genotype.mint_nft(metadata)
     if not created:

@@ -37,7 +37,7 @@ class genotype_dao:
     #     'nonce': self.w3.eth.getTransactionCount(self.account.address)
     # })
 
-    tx = contract.functions.paid_mint(id_address, wallet, wallet, 'ACTIVE').buildTransaction({
+    tx = contract.functions.paid_mint(id_address, wallet, 'ACTIVE').buildTransaction({
         'nonce': self.w3.eth.getTransactionCount(self.account.address)
     })
     signed_tx = self.w3.eth.account.signTransaction(tx, private_key=settings.ROOT_KEY)
@@ -78,11 +78,29 @@ class genotype_dao:
   #   return file_name
 
   def save_file(self, file):
-    content_file = str(file.file.read())
+    content_file = file.file.read()
     file_name = str(uuid.uuid4())
-    with open(f"files/genotypes/{file_name}.zip", "w") as f:
+    with open(f"files/genotypes/{file_name}.zip", "wb") as f:
       f.write(content_file)
     return file_name
+
+
+  def save_file_test(self, file):
+    file = file.file.read()
+    bytes_file = file
+    # save bytes file as zip
+    file_name = str(uuid.uuid4())
+    with open(f"files/genotypes/{file_name}.zip", "wb") as f:
+      f.write(bytes_file)
+    return file_name
+
+    # content_file = str(file.file.read())
+    # file_name = str(uuid.uuid4())
+    # with open(f"files/genotypes/{file_name}.zip", "w") as f:
+    #   f.write(content_file)
+    # return file_name
+
+
 
 
  

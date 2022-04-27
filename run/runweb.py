@@ -96,8 +96,22 @@ class AppServer(object):
             if not nft_hash:
                 raise Exception("Error during genotype creation")
             self.geno_service.create(data, file)
+            return {"transaction_hash": nft_hash}
         except:
             raise
+
+    @cherrypy.expose
+    @cherrypy.config(**{'tools.CORS.on': True})
+    @cherrypy.tools.allow(methods=['POST'])
+    @cherrypy.tools.json_out()
+    def save_file(self, data, file):
+        try:
+            data = json.loads(data)
+            file_name = self.geno_service.save_file_test(data, file)
+            return {"file_name" : file_name}
+        except:
+            raise
+    
 
     # testing
     @cherrypy.expose
